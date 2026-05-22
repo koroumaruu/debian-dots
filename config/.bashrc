@@ -30,6 +30,8 @@ alias y='yazi'
 
 #MISC 
 alias ff='fastfetch'
+alias mci='doas make clean install'
+alias dwll='slstatus -s | dwl'
 alias x='startx'
 alias anime='cd ~/ani-cli && ./ani-cli'
 alias t='kitten theme'
