@@ -13,16 +13,21 @@ set $termfilemanager foot yazi
 set $editor foot nvim
 set $anime foot -e sh -c "cd ~/ani-cli && ./ani-cli"
 
+#adds a network applet to your system tray if you have it installed (if youre using nm-applet that is, otherwise delete this line)
 exec_always --no-startup-id nm-applet &
+
+#only use if youre using the auto tiling script otherwise keep it commented or delete
 #exec_always --no-startup-id autotiling -w 1 2 3 4 5 6 7 8 9
-#install waypaper for wallaper (NEEDS SWAYBG)
-exec_always --no-startup-id waypaper --restore
+
 #(make sure wlr starts first)
 exec --no-startup-id /usr/lib/xdg-desktop-portal-wlr &
 exec --no-startup-id /usr/lib/xdg-desktop-portal -r
 
 #wallpaper
 # output * bg ~/walls/tree.jpg fill
+#OR
+#install waypaper for wallaper (NEEDS SWAYBG)
+exec_always --no-startup-id waypaper --restore
 
 font Pango:JetBrains mono 8
 
@@ -50,9 +55,7 @@ for_window [app_id="neovim"] opacity 0.9
 # corner_radius 8
 
 # Example configuration:
-#
    output eDP-1 scale 1
-#
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 bar {
@@ -66,6 +69,7 @@ bar {
   }
 #
 ### Key bindings
+
     # Start a terminal
     bindsym $mod+Return exec $term
 
@@ -75,17 +79,25 @@ bar {
     # Start your launcher
     bindsym $mod+d exec $menu
 
-    # Start thunar
+    # Keybinds
     bindsym $mod+t exec $filemanager
     bindsym $mod+y exec $termfilemanager
-    bindsym $mod+n exec $editor
     bindsym $mod+g exec $anime
+    bindsym $mod+n exec $editor
+
+    # Screenshots and colorpicker (Install the sway-contrib package on your distro, use hyprpicker if you need an alternative colorpicker beyond grimpicker)
+    bindsym $mod+Shift+s exec grimshot copy area
+    bindsym $mod+Shift+a exec grimshot copy active --notify
+    bindsym $mod+Shift+d exec grimshot copy output --notify
+    bindsym $mod+p exec grimshot copy area
+    bindsym $mod+Shift+x exec hyprpicker --autocopy
+
     floating_modifier $mod normal
 
-    # Reload the configuration file
+    # Reload the cfg file 
     bindsym $mod+Shift+r reload
 
-    # Exit sway (logs you out of your Wayland session)
+    # Exit sway 
     bindsym $mod+Shift+e exec swaynag -t warning -m 'This will log you out' -B 'Yeah sure, whatever' 'swaymsg exit'
 #
 # Moving around:
@@ -197,8 +209,7 @@ gaps outer 5
 default_border pixel 2
 default_floating_border pixel 1
 smart_borders on
-
-# bindsym $mod+c border toggle 
+bindsym $mod+c border toggle 
 client.focused #ffffff #898989 #222222 #1c1c1c
 client.unfocused #2F3239 #2F3239 #FFFFFF #2F3239 
 #PLEASE DONT DELETE THIS
@@ -215,12 +226,5 @@ client.focused_inactive #2F3239 #2F3239 #2F3239 #2F3239
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
-    # Special key to take a screenshot via grim
-    bindsym $mod+Shift+s exec grimshot copy area
-    bindsym $mod+Shift+a exec grimshot copy active --notify
-    bindsym $mod+Shift+d exec grimshot copy output --notify
-    bindsym $mod+p exec grimshot copy area
-    # Special key to colorpick via grimpicker (you can get the grimpicker from sway-contrib package, otherwise you can use hyprpicker)
-    bindsym $mod+Shift+x exec hyprpicker --autocopy
 
 include /etc/sway/config.d/*
